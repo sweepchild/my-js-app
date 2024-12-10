@@ -1,6 +1,6 @@
 const express = require('express')
 const morgan = require('morgan')
-const path = require('path')
+const fs = require('fs')
 
 const app = express();
 const port = 3000;
@@ -9,25 +9,13 @@ const headers = {
     "my-header": "my-header-value"
 };
 
-app.use(morgan('combined'));
+// app.use(morgan('combined');
 
 
 
+app.use(morgan('combined', {stream: fs.createWriteStream('./foo.log', {flags: 'a'})}))
+app.use(morgan('combined'))
 
-const myLogger = function (req, res, next) {
-    console.log('LOGGED')
-    next()
-}
-
-
-app.use(myLogger)
-
-
-
-app.get('/login', (req, res) => {
-    res.send('Hello World!!!!')
-  })
-  
 
 // app.use('/static', 
 //    express.static(path.resolve(__dirname, './static')));
